@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+
 
 //JAVA BEAN
 @Entity
@@ -20,8 +22,16 @@ public class Ricetta {
     private int tempoPreparazione;
     private int porzioni;
     private String testoRicetta;
-
+    private LocalDate dataCreazione;
     // GETTER E SETTER
+
+    public LocalDate getDataCreazione() {
+        return dataCreazione;
+    }
+
+    public void setDataCreazione(LocalDate dataCreazione) {
+        this.dataCreazione = dataCreazione;
+    }
 
     public int getId() {
         return id;

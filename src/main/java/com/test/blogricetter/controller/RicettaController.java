@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +25,17 @@ public class RicettaController {
     // mostra ricette
     @GetMapping
     public String home(Model model){
-        List<Ricetta> ricetteList=ricettaRepository.findAll();
+        List<Ricetta> ricetteList=ricettaRepository.findAllByOrderByDataCreazioneDesc();
         model.addAttribute("ricette",ricetteList);
         return "homepage";
     }
-
+    // admin
+    @GetMapping("/admin")
+    public String admin(Model model){
+        List<Ricetta> ricetteList=ricettaRepository.findAll();
+        model.addAttribute("ricette",ricetteList);
+        return "admin";
+    }
     // crea ricette
     @GetMapping("/create")
     public String create(Model model) {
@@ -42,9 +49,11 @@ public class RicettaController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("categoryList", ricettaRepository.findAll());
+
             return "ricette/form";
         }
+        LocalDate dataCreazione = LocalDate.now();
+        formRicetta.setDataCreazione(dataCreazione);
         ricettaRepository.save(formRicetta);
         return "redirect:/";
     }
