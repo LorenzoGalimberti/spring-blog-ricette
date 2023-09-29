@@ -14,13 +14,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/ricette")
 public class RicettaController {
     @Autowired
     private RicettaRepository ricettaRepository;
@@ -37,9 +38,15 @@ public class RicettaController {
             keyword = searchKeyword.get();
             // devo usare il metodo del repository che fa la ricerca filtrata
             ricetteList = ricettaRepository.findByTitoloContainingIgnoreCaseOrIngredientiContainingIgnoreCaseOrTestoRicettaContainingIgnoreCase(keyword,keyword,keyword);
+            if (ricetteList.size()==1){
+                // trovo l id 
+                String url;
+                url= String.valueOf(ricetteList.get(0).getId());
+                return "redirect:/ricette/"+url;
+            }
         } else {
             // recupero tutti gli User da database
-            ricetteList = ricettaRepository.findAll();
+            ricetteList = ricettaRepository.findAllByOrderByDataCreazioneDesc();
         }
         // passo la lista di utenti alla view tramite model attribute
         model.addAttribute("ricette", ricetteList);
@@ -49,19 +56,33 @@ public class RicettaController {
 
         return "homepage";
     }
-    // admin
-    @GetMapping("/admin")
-    public String admin(Model model){
-        List<Ricetta> ricetteList=ricettaRepository.findAll();
-        model.addAttribute("ricette",ricetteList);
-        return "admin";
-    }
 
     // CRUD RICETTE
     // mostra ricetta
-    @GetMapping("/ricette/{id}")
-    public String show(@PathVariable("id") Integer id, Model model){
+    @GetMapping("/{id}")
+    public String show(@RequestParam(name = "keyword") Optional<String> searchKeyword, @PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes){
+
         Optional<Ricetta> result=ricettaRepository.findById(id);
+
+        List<Ricetta> ricetteList;
+        String keyword = "";
+
+        // verifico se ho la stringa di ricerca
+        if (searchKeyword.isPresent()) {
+            keyword = searchKeyword.get();
+            // devo usare il metodo del repository che fa la ricerca filtrata
+            ricetteList = ricettaRepository.findByTitoloContainingIgnoreCaseOrIngredientiContainingIgnoreCaseOrTestoRicettaContainingIgnoreCase(keyword,keyword,keyword);
+            if (ricetteList.size()==1){
+                // trovo l id
+                String url;
+                url= String.valueOf(ricetteList.get(0).getId());
+                return "redirect:/ricette/"+url;
+            } else if (ricetteList.size()>1) {
+                redirectAttributes.addAttribute("keyword", keyword);
+                return "redirect:/ricette";
+
+            }
+        }
         if (result.isPresent()){
             model.addAttribute("ricetta",result.get());
             return "ricette/detail";
@@ -124,13 +145,13 @@ public class RicettaController {
         LocalDate dataCreazione = LocalDate.now();
         formRicetta.setDataCreazione(dataCreazione);
         ricettaRepository.save(formRicetta);
-        return "redirect:/";
+        return "redirect:/admin";
     }
     // cancella ricetta
 
     @PostMapping("/delete/{id}")
     public String deleteById(@PathVariable Integer id) {
         ricettaRepository.deleteById(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<!-- fragment navbar -->
+<nav th:fragment="navbar(area)" class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <!-- link per Books -->
+                <li class="nav-item">
+                    <a
+                            class="nav-link"
+                            th:href="@{/admin}"
+                            th:classappend="${#strings.equals(area,'Admin') ? 'active' : ''}"
+                    >Admin</a>
+                </li>
+                <!-- link per Users -->
+                <li class="nav-item">
+                    <a
+                            class="nav-link"
+                            th:href="@{/ricette}"
+                            th:classappend="${#strings.equals(area,'Ricette') ? 'active' : ''}"
+                    >Ricette</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- fine fragment navbar -->
+</body>
+</html>
