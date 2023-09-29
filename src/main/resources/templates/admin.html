@@ -3,6 +3,14 @@
 <head th:replace="fragments/head :: head('Admin')"></head>
 
 <body>
+<!-- box di ricerca -->
+<form th:action="@{/admin}" method="GET">
+  <div class="input-group">
+    <input type="search" class="form-control" placeholder="ricerca per titolo,ingredienti e testo"
+           name="keyword" th:value="${keyword}">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
 <h1>Admin Page</h1>
 <a class="btn btn-success" th:href="@{/create}">crea</a>
 <p th:each="ricetta : ${ricette}">

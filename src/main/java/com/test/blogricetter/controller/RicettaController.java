@@ -28,9 +28,25 @@ public class RicettaController {
     private CategoriaRepository categoriaRepository;
     // mostra ricette
     @GetMapping
-    public String home(Model model){
-        List<Ricetta> ricetteList=ricettaRepository.findAllByOrderByDataCreazioneDesc();
-        model.addAttribute("ricette",ricetteList);
+    public String home(@RequestParam(name = "keyword") Optional<String> searchKeyword,Model model){
+        List<Ricetta> ricetteList;
+        String keyword = "";
+
+        // verifico se ho la stringa di ricerca
+        if (searchKeyword.isPresent()) {
+            keyword = searchKeyword.get();
+            // devo usare il metodo del repository che fa la ricerca filtrata
+            ricetteList = ricettaRepository.findByTitoloContainingIgnoreCaseOrIngredientiContainingIgnoreCaseOrTestoRicettaContainingIgnoreCase(keyword,keyword,keyword);
+        } else {
+            // recupero tutti gli User da database
+            ricetteList = ricettaRepository.findAll();
+        }
+        // passo la lista di utenti alla view tramite model attribute
+        model.addAttribute("ricette", ricetteList);
+        // passo anche l'attributo keyword con la chiave di ricerca
+        model.addAttribute("keyword", keyword);
+        // ritorno il nome del template
+
         return "homepage";
     }
     // admin

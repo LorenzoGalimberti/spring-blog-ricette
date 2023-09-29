@@ -8,6 +8,14 @@
 </head>
 <body>
 <h1>Ricette</h1>
+<!-- box di ricerca -->
+<form th:action="@{/}" method="GET">
+  <div class="input-group">
+    <input type="search" class="form-control" placeholder="ricerca per titolo,ingredienti e testo"
+           name="keyword" th:value="${keyword}">
+    <button class="btn btn-primary">Search</button>
+  </div>
+</form>
 <div class="container">
   <div class="row">
     <div th:each="ricetta : ${ricette}" class="col-9 bordered d-flex ">
