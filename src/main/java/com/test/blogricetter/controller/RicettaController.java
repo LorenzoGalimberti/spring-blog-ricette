@@ -76,4 +76,10 @@ public class RicettaController {
         return "redirect:/";
     }
     // cancella ricetta
+
+    @PostMapping("/delete/{id}")
+    public String deleteById(@PathVariable Integer id) {
+        ricettaRepository.deleteById(id);
+        return "redirect:/";
+    }
 }
