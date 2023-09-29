@@ -36,6 +36,21 @@ public class RicettaController {
         model.addAttribute("ricette",ricetteList);
         return "admin";
     }
+
+    // CRUD RICETTE
+    // mostra ricetta
+    @GetMapping("/ricette/{id}")
+    public String show(@PathVariable("id") Integer id, Model model){
+        Optional<Ricetta> result=ricettaRepository.findById(id);
+        if (result.isPresent()){
+            model.addAttribute("ricetta",result.get());
+            return "ricette/detail";
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ricetta con id " + id + " non trovata");
+
+        }
+
+    }
     // crea ricette
     @GetMapping("/create")
     public String create(Model model) {
