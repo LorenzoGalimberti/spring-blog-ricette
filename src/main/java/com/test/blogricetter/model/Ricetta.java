@@ -1,10 +1,9 @@
 package com.test.blogricetter.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 
@@ -16,14 +15,34 @@ public class Ricetta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Il titolo non può essere vuoto")
     private String titolo;
+
+    @NotBlank(message = "Gli ingredienti non possono essere vuoti")
     private String ingredienti;
+    //@URL(message = "L'URL della foto non è valido")
+    @NotBlank(message = "l'URL non può essere vuoto")
     private String urlFoto;
+     @Min(1)
     private int tempoPreparazione;
+    @Min(1)
+
     private int porzioni;
+    @NotBlank(message = " non può essere vuoto")
+
     private String testoRicetta;
     private LocalDate dataCreazione;
+    @ManyToOne
+    private Categoria categoria;
     // GETTER E SETTER
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public LocalDate getDataCreazione() {
         return dataCreazione;

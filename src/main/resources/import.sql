@@ -5,5 +5,8 @@ INSERT INTO ricetta (titolo, ingredienti, url_foto, tempo_preparazione, porzioni
 INSERT INTO ricetta (titolo, ingredienti, url_foto, tempo_preparazione, porzioni, testo_ricetta, data_creazione) VALUES ('Tiramisù', 'Savoiardi, caffè, uova, zucchero, mascarpone, cacao in polvere', 'https://example.com/tiramisu.jpg', 40, 6, '1. Preparare il caffè...\n2. Montare le uova con lo zucchero...\n3. Mescolare il mascarpone...\n4. Alternare strati di crema e savoiardi...\n5. Spolverare con cacao in polvere.', '2023-09-27');
 
 
-
-
+INSERT INTO categoria(nome) VALUE ('antipasto');
+INSERT INTO categoria(nome) VALUE ('primo piatto');
+INSERT INTO categoria(nome) VALUE ('secondo piatto');
+INSERT INTO categoria(nome) VALUE ('contorno');
+INSERT INTO categoria(nome) VALUE ('dessert');

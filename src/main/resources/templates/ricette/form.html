@@ -15,7 +15,7 @@
         <!--  titolo-->
         <div class="mb-3">
             <label for="title" class="form-label">Titolo</label>
-            <input type="text" class="form-control" id="title" th:field="*{titolo}" required
+            <input type="text" class="form-control" id="title" th:field="*{titolo}"
                    th:errorClass="is-invalid">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}">
                 <ul>
@@ -37,7 +37,7 @@
         </div>
         <!--  urlFoto-->
         <div class="mb-3">
-            <label for="urlFoto" class="form-label">Urk Foto</label>
+            <label for="urlFoto" class="form-label">Url Foto</label>
             <input type="text" class="form-control" id="urlFoto" th:field="*{urlFoto}"
                    th:errorClass="is-invalid">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('urlFoto')}">
@@ -46,26 +46,28 @@
                 </ul>
             </div>
         </div>
-        <!--  tempoPreparazione-->
+        <!-- tempoPreparazione -->
         <div class="mb-3">
             <label for="tempoPreparazione" class="form-label">Tempo di Preparazione</label>
-            <input type="number" class="form-control" id="tempoPreparazione" th:field="*{tempoPreparazione}">
+            <input type="number" class="form-control" id="tempoPreparazione" th:field="*{tempoPreparazione}" th:errorClass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('tempoPreparazione')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('tempoPreparazione')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
-        <div class="invalid-feedback" th:if="${#fields.hasErrors('tempoPreparazione')}">
-            <ul>
-                <li th:each="err : ${#fields.errors('tempoPreparazione')}" th:text="${err}"></li>
-            </ul>
-        </div>
-        <!--  porzioni-->
+
+        <!-- porzioni -->
         <div class="mb-3">
             <label for="portions" class="form-label">Porzioni</label>
-            <input type="number" class="form-control" id="portions" th:field="*{porzioni}">
+            <input type="number" class="form-control" id="portions" th:field="*{porzioni}" th:errorClass="is-invalid">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('porzioni')}">
+                <ul>
+                    <li th:each="err : ${#fields.errors('porzioni')}" th:text="${err}"></li>
+                </ul>
+            </div>
         </div>
-        <div class="invalid-feedback" th:if="${#fields.hasErrors('porzioni')}">
-            <ul>
-                <li th:each="err : ${#fields.errors('porzioni')}" th:text="${err}"></li>
-            </ul>
-        </div>
+
         <!--  testoRicetta-->
         <div class="mb-3">
             <label for="testoRicetta" class="form-label">Testo Ricetta</label>
@@ -81,6 +83,17 @@
         
       
     </div>
+    <!-- categorie -->
+
+    <div class="col-4">
+        <h4>Categorie</h4>
+        <div class="form-check" th:each="cat : ${categoryList}">
+            <input class="form-check-input" type="radio" th:value="${cat.id}"
+                   th:id="|category_${cat.id}|" th:field="*{categoria}">
+            <label class="form-check-label" th:for="|category_${cat.id}|" th:text="${cat.nome}"></label>
+        </div>
+    </div>
+
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Save</button>
         <a class="btn btn-primary" th:href="@{/books}">Cancel</a>

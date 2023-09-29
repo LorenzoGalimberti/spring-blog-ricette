@@ -1,7 +1,9 @@
 package com.test.blogricetter.controller;
 
 
+import com.test.blogricetter.model.Categoria;
 import com.test.blogricetter.model.Ricetta;
+import com.test.blogricetter.repository.CategoriaRepository;
 import com.test.blogricetter.repository.RicettaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class RicettaController {
     @Autowired
     private RicettaRepository ricettaRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
     // mostra ricette
     @GetMapping
     public String home(Model model){
@@ -54,6 +58,9 @@ public class RicettaController {
     // crea ricette
     @GetMapping("/create")
     public String create(Model model) {
+        List<Categoria> categoryList = categoriaRepository.findAll();
+        model.addAttribute("categoryList", categoryList);
+
         model.addAttribute("ricetta", new Ricetta());
         return "ricette/form"; // template
     }
@@ -77,6 +84,9 @@ public class RicettaController {
     public String edit(@PathVariable("id") Integer id , Model model){
         Optional<Ricetta> ricetta = ricettaRepository.findById(id);
         if (ricetta.isPresent()) {
+            List<Categoria> categoryList = categoriaRepository.findAll();
+            model.addAttribute("categoryList", categoryList);
+
             model.addAttribute("ricetta", ricetta.get());
             return "ricette/edit";
         } else {
@@ -95,7 +105,8 @@ public class RicettaController {
         if (bindingResult.hasErrors()) {
             return "/ricette/edit";
         }
-        // salvo il Book
+        LocalDate dataCreazione = LocalDate.now();
+        formRicetta.setDataCreazione(dataCreazione);
         ricettaRepository.save(formRicetta);
         return "redirect:/";
     }
