@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head('Modifica Ricetta')"></head>
+<body>
+<h1>Modifica ricetta</h1>
+
+<form
+        id="ricetta-form"
+        th:action="@{/edit/{id}(id=${ricetta.id})}"
+        th:object="${ricetta}"
+        method="POST"
+        class="row">
+
+  <div class="col-8">
+    <!--  titolo-->
+    <div class="mb-3">
+      <label for="title" class="form-label">Titolo</label>
+      <input type="text" class="form-control" id="title" th:field="*{titolo}" required
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('titolo')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+
+    <!--  ingredienti-->
+    <div class="mb-3">
+      <label for="ingredients" class="form-label">Ingredienti</label>
+      <input type="text" class="form-control" id="ingredients" th:field="*{ingredienti}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('ingredienti')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('ingredienti')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!--  urlFoto-->
+    <div class="mb-3">
+      <label for="urlFoto" class="form-label">Urk Foto</label>
+      <input type="text" class="form-control" id="urlFoto" th:field="*{urlFoto}"
+             th:errorClass="is-invalid">
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('urlFoto')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('urlFoto')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+    <!--  tempoPreparazione-->
+    <div class="mb-3">
+      <label for="tempoPreparazione" class="form-label">Tempo di Preparazione</label>
+      <input type="number" class="form-control" id="tempoPreparazione" th:field="*{tempoPreparazione}">
+    </div>
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('tempoPreparazione')}">
+      <ul>
+        <li th:each="err : ${#fields.errors('tempoPreparazione')}" th:text="${err}"></li>
+      </ul>
+    </div>
+    <!--  porzioni-->
+    <div class="mb-3">
+      <label for="portions" class="form-label">Porzioni</label>
+      <input type="number" class="form-control" id="portions" th:field="*{porzioni}">
+    </div>
+    <div class="invalid-feedback" th:if="${#fields.hasErrors('porzioni')}">
+      <ul>
+        <li th:each="err : ${#fields.errors('porzioni')}" th:text="${err}"></li>
+      </ul>
+    </div>
+    <!--  testoRicetta-->
+    <div class="mb-3">
+      <label for="testoRicetta" class="form-label">Testo Ricetta</label>
+      <textarea class="form-control" id="testoRicetta" th:field="*{testoRicetta}"
+                th:errorClass="is-invalid" rows="5"></textarea>
+
+      <div class="invalid-feedback" th:if="${#fields.hasErrors('testoRicetta')}">
+        <ul>
+          <li th:each="err : ${#fields.errors('testoRicetta')}" th:text="${err}"></li>
+        </ul>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-primary" th:href="@{/books}">Cancel</a>
+  </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
